@@ -3,11 +3,24 @@
 <head>
   <title>Workspace</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700'
+ rel='stylesheet' type='text/css'>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<div class="container-fluid" style="background-color:black;">
+  <div class="navbar-header">
+    
+  </div>
+    <ul class="nav nav-pills">
+      <li role="presentation" class="active"><%= link_to "Bullish", root_path, class: 'navbar-brand' %></li>
+      <li role="presentation"><%= link_to "Home", root_path %></li>
+      <li role ="presentation"><%= link_to "Feed", root_path %></li>
+      <li role="presentation"><%= link_to "Rankings", root_path %></li>
+    </ul>
+  </div>
+</div>
 <%= yield %>
 
 </body>
