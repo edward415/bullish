@@ -18,3 +18,5 @@
 /.c9/
 
 /spring/
+# Ignore application configuration
+/config/application.yml

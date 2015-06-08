@@ -6,8 +6,8 @@ class Stock < ActiveRecord::Base
   # attr_reader :symbol, :name, :last, :date
   
   def get_info
+    puts ENV['XIGNITE_KEY']
     puts "*" * 15
-    puts "#{self.symbol}.#{self.market_identification_code}"
     
     url = "http://globalquotes.xignite.com/v3/xGlobalQuotes.asmx?WSDL"
 
