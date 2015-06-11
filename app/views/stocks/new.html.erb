@@ -1,13 +1,5 @@
 <div class="container">
   <div class="col-md-8">
-    <%= form_for @stock do |f| %>
-  <div class="form-group">
-    <%= f.label "Stock Symbol/Ticker" %> <%= f.text_field :symbol, class: 'form-control', placeholder: 'Enter the Symbol/Ticker of the stock you want to add' %>
-    <%= f.label "Stock Identifier" %> <%= f.text_field :market_identification_code, class: 'form-control' %>
-    <%= f.label "Shares Traded" %> <%= f.text_field :qty, class: 'form-control' %>
-  </div>
-  <%= f.submit "Add", class: 'btn btn-success' %>
-  <% end %>
   </div>
 </div>
 

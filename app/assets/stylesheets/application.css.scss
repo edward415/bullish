@@ -46,3 +46,29 @@ i {
 .table-striped > tbody > tr:nth-of-type(odd) {
   background-color: #2a333a;
 }
+
+.navbar-default {
+  background-color: black;
+  border-color: #03A9F4;
+}
+
+.tabs {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  #full-nav {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  #tab-nav {
+    display: none;
+  }
+  
+  body { 
+    padding-bottom: 114px; 
+  }
+}

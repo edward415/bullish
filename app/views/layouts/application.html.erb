@@ -8,12 +8,12 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="mobile">
 <div class="container-fluid" style="background-color:black;">
   <div class="navbar-header">
     
   </div>
-    <ul class="nav nav-pills">
+    <ul class="nav nav-pills" id="full-nav">
       <li role="presentation" class="active"><%= link_to "Bullish", root_path, class: 'navbar-brand' %></li>
       <li role="presentation"><%= link_to "Home", root_path %></li>
       <li role ="presentation"><%= link_to "Feed", root_path %></li>
@@ -27,6 +27,29 @@
       <% end %>
     </ul>
   </div>
+  <div class="pad"></div>
+  <% if current_user %>
+    <nav class="navbar navbar-default navbar-fixed-bottom tabs" id="tab-nav">
+      <div class="row">
+        <div class="col-md-3 col-xs-3">
+          <%= link_to image_tag("feed_tab.png", class: 'center-block'), root_path %>
+          <h4 class="text-center">Feed</h4>
+        </div>
+        <div class="col-md-3 col-xs-3">
+          <%= link_to image_tag("rankings_tab.png", class: 'center-block'), root_path %>
+          <h4 class="text-center">Rankings</h4>
+          </div>
+        <div class="col-md-3 col-xs-3">
+          <%= link_to image_tag("profile_tab.png", class: 'center-block'), root_path %>
+          <h4 class="text-center">Profile</h4>
+        </div>
+        <div class="col-md-3 col-xs-3">
+          <%= link_to image_tag("settings_tab.png", class: 'center-block'), root_path %>
+          <h4 class="text-center">Settings</h4>
+        </div>
+      </div>
+    </nav>
+  <% end %>
 </div>
 
   <% if flash[:notice] %>
@@ -45,6 +68,7 @@
     <%= flash[:alert] %>
   </div>
   <% end %>
+  
 <%= yield %>
 
 </body>
