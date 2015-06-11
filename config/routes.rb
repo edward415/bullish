@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users
-  get 'stocks/index'
+  
+  resources :stocks do
+    post 'update_stock' => 'stocks#update_stock'
+  end
 
   get 'welcome/index'
   root to: 'welcome#index'

@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="col-md-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading"><%= @stock.name %> (<%= @stock.symbol %>)</div>
+        <table class="table table-striped">
+          <tr>
+            <td><h4>Last</h4><h1 style="color:<%= @stock.quote_color %>;"><%= @stock.last %>
+            <% if @stock.last > @stock.close %>
+              <%= image_tag("up_arrows.png", :alt => "up_arrows", style: 'width: 20px;') %>
+            <% else %>
+              <%= image_tag("down_arrows.png", :alt => "down_arrows", style: 'width: 20px;') %>
+            <% end %>
+            </h1>
+          </td>
+            <td><h4>Change</h4><h3 style="color:<%= @stock.quote_color %>;"><%= @stock.change_percentage %> &nbsp <%= @stock.change_number %></h3></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= form_tag stock_update_stock_path(@stock) do %>
+  <% hidden_field_tag(:stock_id, @stock.id) %>
+  <%= radio_button_tag(:buy, 0) %>
+  <%= label_tag(:buy_true, "Buy") %>
+  <%= radio_button_tag(:buy, 1) %>
+  <%= label_tag(:buy_false, "Sell") %>
+  <%= number_field(:holding, :qty, in: 1.0..100000000.00, step: 1) %>
+  <%= label_tag(:qty, "quantity") %>
+  <%= submit_tag("Submit") %>
+<% end %>
+  

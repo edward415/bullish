@@ -38,3 +38,11 @@ label {
 i {
   color:white;
 }
+
+.panel-body {
+  background-color: #2a333a;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #2a333a;
+}

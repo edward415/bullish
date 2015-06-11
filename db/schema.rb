@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150608062951) do
+ActiveRecord::Schema.define(version: 20150611073610) do
+
+  create_table "holdings", force: true do |t|
+    t.integer  "qty"
+    t.datetime "initiate_time"
+    t.integer  "stock_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.decimal  "price"
+  end
+
+  add_index "holdings", ["stock_id"], name: "index_holdings_on_stock_id"
+  add_index "holdings", ["user_id"], name: "index_holdings_on_user_id"
 
   create_table "stocks", force: true do |t|
     t.string   "symbol"
@@ -22,7 +35,19 @@ ActiveRecord::Schema.define(version: 20150608062951) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "market_identification_code"
+    t.integer  "user_id"
+    t.float    "high"
+    t.float    "low"
+    t.float    "close"
+    t.float    "high52_weeks"
+    t.float    "low52_weeks"
+    t.integer  "volume"
+    t.float    "start"
+    t.float    "ask"
+    t.float    "bid"
   end
+
+  add_index "stocks", ["user_id"], name: "index_stocks_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "name"
