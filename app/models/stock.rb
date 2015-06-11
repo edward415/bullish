@@ -2,6 +2,7 @@ class Stock < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   
   has_many :holdings
+  has_many :histories
   belongs_to :user
   
   require 'rubygems'
