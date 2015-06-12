@@ -24,10 +24,10 @@ class StocksController < ApplicationController
     @stock = current_user.stocks.build(stock_params)
     if @stock.save
       @stock.get_info
-      flash[:notice] = "Successfully Added Stock To Your Portfolio!"
-      redirect_to root_path
+      redirect_to root_path, notice: "Successfully Added Stock To Your Portfolio!"
     else
       flash[:alert] = "Failed to Add Stock! Please Try Again."
+      render :new
     end
   end
   
