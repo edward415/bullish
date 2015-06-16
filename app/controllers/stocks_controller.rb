@@ -51,11 +51,13 @@ class StocksController < ApplicationController
     if @buy == "0" #Buy
       if current_user.holdings.where(stock_id: @stock_id).first #if user already has stock
         average_price = (@holding.price * @holding.qty + @stock.last * @qty) / (@holding.qty + @qty)
-        @holding.update_attributes(:price => average_price,:qty => @holding.qty + @qty)
+        @holding.update_attributes(:price => average_price,:qty => @holding.qty + @qty, :initial_value => average_price * (@holding.qty + @qty))
+        buy_event(false)
         flash[:notice] = "Bought #{@qty} of #{@stock.symbol}"
         redirect_to stock_path(@stock_id)
       else #if user doesn't have stock
-        new_holding = Holding.new(price: @stock.last, qty: @qty, user_id: current_user.id, stock_id: @stock_id, initiate_time: Time.now)
+        new_holding = Holding.new(price: @stock.last, qty: @qty, user_id: current_user.id, stock_id: @stock_id, initiate_time: Time.now, gain_now: 0, initial_value: @stock.last * @qty)
+        buy_event(true)
         flash[:notice] = "Bought #{@qty} of #{@stock.symbol}"
         redirect_to stock_path(@stock_id)
         new_holding.save!
@@ -65,9 +67,15 @@ class StocksController < ApplicationController
       if current_user.holdings.where(stock_id: @stock_id).first #if user already has stock
         if @holding.qty - @qty >= 0
           @holding.update_attribute(:qty, @holding.qty - @qty)
+          if @holding.qty != 0
+            @holding.update_attribute(:gain_now, calc_gain)
+            sell_event(false)
+          end
           flash[:notice] = "Sold #{@qty} of #{Stock.find(@stock_id).symbol}"
           redirect_to stock_path(@stock_id)
+          
           if @holding.qty == 0 #Close Position
+            sell_event(true)
             create_history
             @holding.delete
             flash[:notice] = "Your position in #{@stock.symbol} has been closed"
@@ -84,7 +92,7 @@ class StocksController < ApplicationController
     
   end
   
-  def create_history
+  def calc_gain
     init_value = @qty * @holding.price
     sell_value = @qty * @stock.last
     
@@ -93,8 +101,23 @@ class StocksController < ApplicationController
     else
       @gain = -(init_value - sell_value)
     end
-    @pct_gain = @gain / init_value 
-    history = History.new(user_id: current_user.id, stock_id: @stock.id, gain: @gain, pct_gain: @pct_gain)
+    return @gain.round(2)
+  end
+      
+  def buy_event(initiate)
+    @event = Event.new(user_id: current_user.id, stock_id: @stock.id, qty: @qty, price: @stock.last, buy: true, initiate: initiate)
+    @event.save!
+  end
+  
+  def sell_event(close)
+    @event = event = Event.new(user_id: current_user.id, stock_id: @stock.id, qty: @qty, price: @stock.last, buy: false, close: close)
+    @event.save!
+  end
+  
+  def create_history
+    @gain = calc_gain + @holding.gain_now
+    @pct_gain = @gain  / @holding.initial_value
+    history = History.new(user_id: current_user.id, stock_id: @stock.id, gain: @gain, pct_gain: @pct_gain, event_id: @event.id)
     history.save!
   end
 

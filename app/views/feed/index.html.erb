@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <h1>Feed</h1>
+  <% @events.each do |e| %>
+    <div class="media">
+      <% if User.find(e.user_id).picture? %>
+        <div class="media-left media-middle"><%= link_to image_tag( User.find(e.user_id).picture_url(:large), width: 100, height:100, class: 'media-objet'), user_path(e.user_id) %></div>
+      <% end %>
+      <div class="media-body">
+    <% if e.buy %>
+      <% if e.initiate %>
+          <div class="media-heading"><h2>Buy @<%= link_stock(e) %></h2></div>
+          <h3><%= link_user(e) %> initiated a position in @<%= link_stock(e) %> buying <%= e.qty %> shares at $<%= e.price %></h3>
+      <% else %>
+          <div class="media-heading"><h2>Buy @<%= link_stock(e) %></h2></div>
+          <h3><%= link_user(e) %> increased holdings of @<%= link_stock(e) %> by <%= e.qty %> at $<%= e.price %></h3>
+      <% end %>
+    <% else %>
+      <% if e.close %>
+          <div class="media-heading"><h2>Closed @<%= link_stock(e) %></h2></div>
+          <h3><%= link_user(e) %> sold <%= e.qty %> shares at $<%= e.price %> and closed position on @<%= link_stock(e) %>, realizing <span style="color:<%= gain_color(e) %>"><%= number_to_percentage(e.history.pct_gain) %></span> </h3>
+      <% else %>
+          <div class="media-heading"><h2>Sell @<%= link_stock(e) %></h2></div>
+          <h3><%= link_user(e) %> sold <%= e.qty %> shares of @<%= link_stock(e) %> at $<%= e.price %></h3>
+      <% end %>
+    <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
+
+  get 'feed/index'
+
   devise_for :users
+  
+  resources :users
   
   resources :stocks do
     post 'update_stock' => 'stocks#update_stock'

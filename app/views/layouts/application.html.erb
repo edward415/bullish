@@ -16,7 +16,7 @@
     <ul class="nav nav-pills" id="full-nav">
       <li role="presentation" class="active"><%= link_to "Bullish", root_path, class: 'navbar-brand' %></li>
       <li role="presentation"><%= link_to "Home", root_path %></li>
-      <li role ="presentation"><%= link_to "Feed", root_path %></li>
+      <li role ="presentation"><%= link_to "Feed", feed_index_path %></li>
       <li role="presentation"><%= link_to "Rankings", root_path %></li>
       <% if current_user %>
         <li role="presentation" class="pull-right"><%= link_to "Sign Out", destroy_user_session_path, method: :delete %> </li>
@@ -27,12 +27,11 @@
       <% end %>
     </ul>
   </div>
-  <div class="pad"></div>
   <% if current_user %>
     <nav class="navbar navbar-default navbar-fixed-bottom tabs" id="tab-nav">
       <div class="row">
         <div class="col-md-3 col-xs-3">
-          <%= link_to image_tag("feed_tab.png", class: 'center-block'), root_path %>
+          <%= link_to image_tag("feed_tab.png", class: 'center-block'), feed_index_path %>
           <h4 class="text-center">Feed</h4>
         </div>
         <div class="col-md-3 col-xs-3">

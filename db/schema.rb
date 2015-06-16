@@ -11,7 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150611170516) do
+ActiveRecord::Schema.define(version: 20150615072220) do
+
+  create_table "events", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "stock_id"
+    t.boolean  "buy"
+    t.integer  "qty"
+    t.decimal  "price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "initiate"
+    t.boolean  "close"
+  end
+
+  add_index "events", ["stock_id"], name: "index_events_on_stock_id"
+  add_index "events", ["user_id"], name: "index_events_on_user_id"
 
   create_table "histories", force: true do |t|
     t.decimal  "gain"
@@ -20,6 +35,7 @@ ActiveRecord::Schema.define(version: 20150611170516) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "pct_gain"
+    t.integer  "event_id"
   end
 
   add_index "histories", ["stock_id"], name: "index_histories_on_stock_id"
@@ -33,6 +49,8 @@ ActiveRecord::Schema.define(version: 20150611170516) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "price"
+    t.decimal  "gain_now"
+    t.decimal  "initial_value"
   end
 
   add_index "holdings", ["stock_id"], name: "index_holdings_on_stock_id"
@@ -75,6 +93,7 @@ ActiveRecord::Schema.define(version: 20150611170516) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "picture"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

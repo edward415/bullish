@@ -5,8 +5,10 @@
     <%= image_tag("bull_logo.png", :alt => "logo", class: 'center-block') %>
     <h2>And Trade Like a Pro</h2>
     <br>
-    <h4> <%= link_to "Get Started Now!", root_path, class: 'btn btn-primary text-center', style: 'font-size:30px;' %> or <%= link_to "Log in", new_user_session_path, class: 'btn btn-success text-center', style: 'font-size:28px' %></div>
-  </h4>
+    <% if !(current_user.present?) %>
+      <h4> <%= link_to "Get Started Now!", root_path, class: 'btn btn-primary text-center', style: 'font-size:30px;' %> or <%= link_to "Log in", new_user_session_path, class: 'btn btn-success text-center', style: 'font-size:28px' %></h4>
+    <% end %>
+  </div>
   <div class="row text-center">
     <div class="col-md-4">
       <%= image_tag("playbook.png", :alt => "playbook", class: 'center-block') %>
