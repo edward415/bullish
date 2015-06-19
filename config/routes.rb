@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   
   resources :users
   
-  resources :stocks do
-    post 'update_stock' => 'stocks#update_stock'
-  end
+  resources :stocks
+  
+  post 'update_holding' => 'stocks#update_holding'
 
   get 'welcome/index'
   root to: 'welcome#index'

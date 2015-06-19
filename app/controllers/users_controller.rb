@@ -1,6 +1,17 @@
 class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
+    @events = @user.events
+    @holdings = @user.holdings
+    @histories = @user.histories
+    @array =[]
+    
+    @user.holdings.each do |h|
+      @array << ["#{h.stock.symbol}", h.qty * h.stock.last]
+    end
+    
+    puts @array.inspect
+
   end
   
   def update
@@ -16,6 +27,7 @@ class UsersController < ApplicationController
   
   def index
   end
+  
   
   private
   

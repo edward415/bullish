@@ -47,6 +47,10 @@ i {
   background-color: #2a333a;
 }
 
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: black;
+}
+
 .navbar-default {
   background-color: black;
   border-color: #03A9F4;
@@ -57,7 +61,13 @@ i {
   padding-bottom: 5px;
 }
 
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  background-color: #337AB7;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus > h2 {
 
+  color: white;
+}
 @media only screen 
     and (min-device-width : 414px) 
     and (max-device-width : 736px) 

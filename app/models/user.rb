@@ -7,4 +7,7 @@ class User < ActiveRecord::Base
   has_many :holdings, dependent: :destroy
   has_many :stocks, through: :holdings
   has_many :histories
+  has_many :events
+  
+  
 end

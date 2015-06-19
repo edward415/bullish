@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150615072220) do
+ActiveRecord::Schema.define(version: 20150618074427) do
 
   create_table "events", force: true do |t|
     t.integer  "user_id"
@@ -36,6 +36,10 @@ ActiveRecord::Schema.define(version: 20150615072220) do
     t.datetime "updated_at"
     t.decimal  "pct_gain"
     t.integer  "event_id"
+    t.string   "histories"
+    t.decimal  "buy_price"
+    t.decimal  "sell_price"
+    t.datetime "initiate_date"
   end
 
   add_index "histories", ["stock_id"], name: "index_histories_on_stock_id"

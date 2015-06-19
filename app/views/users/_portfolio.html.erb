@@ -1,0 +1,22 @@
+<div class="row">
+  <% @holdings.each do |h| %>
+    <div class="col-sm-12 col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h4><%= h.stock.symbol %></h4></div>
+        <table class="table table-striped">
+          <tr>
+            <td colspan="2"><h4><%= h.stock.name %></h4><h2 class="text-center"><%= h.stock.last %></h2></td>
+          </tr>
+          <tr>
+            <td><h4>Average Buying Price: <%= h.price %></h4></td>
+            <td><h4>Gain Now: <span style="color:<%= gain_now_color(h) %>"><%= number_to_percentage(h.gain_now) %></span></h4></td>
+          </tr>
+          <tr>
+            <td><h4>Last: <%= h.stock.last %></h4></td>
+            <td><h4>Chg: <%= h.stock.change %>  &nbsp &nbsp Chg%: <%= h.stock.change_percentage %></h4></td>
+          </tr>
+        </table>
+      </div>
+  </div>
+  <% end %>
+</div>

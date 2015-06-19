@@ -20,14 +20,5 @@
   </div>
 </div>
 
-<%= form_tag stock_update_stock_path(@stock) do %>
-  <% hidden_field_tag(:stock_id, @stock.id) %>
-  <%= radio_button_tag(:buy, 0) %>
-  <%= label_tag(:buy_true, "Buy") %>
-  <%= radio_button_tag(:buy, 1) %>
-  <%= label_tag(:buy_false, "Sell") %>
-  <%= number_field(:holding, :qty, in: 1.0..100000000.00, step: 1) %>
-  <%= label_tag(:qty, "quantity") %>
-  <%= submit_tag("Submit") %>
-<% end %>
+<%= render "trade_action" %>
   

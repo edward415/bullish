@@ -35,13 +35,27 @@ class StocksController < ApplicationController
     @stock = Stock.find(params[:id])
   end
   
-  def update_stock
+  def update_holding
     @buy = params[:buy]
     @qty = params[:holding][:qty].to_i
-    @stock_id = params[:stock_id]
+    @symbol = params[:symbol]
+    
+    if Stock.where(symbol: @symbol).first
+      @stock_id = Stock.find_by(symbol: @symbol).id
+    else
+      flash[:alert] = "invalid stock"
+      redirect_to root_path and return
+    end
+    
     Stock.find(@stock_id).get_info
     @stock = Stock.find(@stock_id)
     @holding = current_user.holdings.find_by(stock_id: @stock_id)
+    
+    stock_actions
+    
+  end
+  
+  def stock_actions
     
     if @buy == nil
       flash[:alert] = "Please select a buy or sell action."
@@ -89,7 +103,6 @@ class StocksController < ApplicationController
         redirect_to stock_path(@stock_id)
       end
     end
-    
   end
   
   def calc_gain
@@ -117,7 +130,10 @@ class StocksController < ApplicationController
   def create_history
     @gain = calc_gain + @holding.gain_now
     @pct_gain = @gain  / @holding.initial_value
-    history = History.new(user_id: current_user.id, stock_id: @stock.id, gain: @gain, pct_gain: @pct_gain, event_id: @event.id)
+    if @gain == 0
+      @pct_gain = 0
+    end
+    history = History.new(user_id: current_user.id, stock_id: @stock.id, gain: @gain, pct_gain: @pct_gain, event_id: @event.id, buy_price: @holding.price, initiate_date: @holding.initiate_time)
     history.save!
   end
 

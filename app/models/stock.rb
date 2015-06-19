@@ -25,6 +25,12 @@ class Stock < ActiveRecord::Base
     end
   end
   
+  def change_number
+    change = self.last - self.close
+    change = change.round(3)
+    return number_with_precision(change, :precision => 3)
+  end
+    
   def change_percentage
     if self.last > self.close
       change = (self.last - self.close)/self.close
@@ -37,12 +43,17 @@ class Stock < ActiveRecord::Base
     return number_to_percentage(change)
   end
   
-  def change_number
-    change = self.last - self.close
-    change = change.round(3)
-    return number_with_precision(change, :precision => 3)
-  end
+  def change
+    if self.last > self.close
+      change = self.last - self.close
+    elsif self.last == self.close
+      change = 0
+    else 
+      change = self.close - self.last
+    end
     
+    return change.round(2)
+  end
   
   def get_info
     

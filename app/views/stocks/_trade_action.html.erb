@@ -1,0 +1,25 @@
+<% if !current_page?(feed_index_path) %>
+  <%= form_tag update_holding_path do %>
+    <%= text_field_tag(:symbol, @stock.symbol) %>
+    <%= label_tag(:symbol, "Ticker/Symbol") %>
+    <%= radio_button_tag(:buy, 0) %>
+    <%= label_tag(:buy_true, "Buy") %>
+    <%= radio_button_tag(:buy, 1) %>
+    <%= label_tag(:buy_false, "Sell") %>
+    <%= number_field(:holding, :qty, in: 1.0..100000000.00, step: 1) %>
+    <%= label_tag(:qty, "quantity") %>
+    <%= submit_tag("Submit") %>
+  <% end %>
+<% else %>
+  <%= form_tag update_holding_path do %>
+    <%= text_field_tag(:symbol) %>
+    <%= label_tag(:symbol, "Ticker/Symbol") %>
+    <%= radio_button_tag(:buy, 0) %>
+    <%= label_tag(:buy_true, "Buy") %>
+    <%= radio_button_tag(:buy, 1) %>
+    <%= label_tag(:buy_false, "Sell") %>
+    <%= number_field(:holding, :qty, in: 1.0..100000000.00, step: 1) %>
+    <%= label_tag(:qty, "quantity") %>
+    <%= submit_tag("Submit") %>
+  <% end %>
+<% end %>
