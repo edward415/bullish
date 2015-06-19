@@ -1,7 +1,7 @@
 <% if !current_page?(feed_index_path) %>
   <%= form_tag update_holding_path do %>
-    <%= text_field_tag(:symbol, @stock.symbol) %>
     <%= label_tag(:symbol, "Ticker/Symbol") %>
+    <%= text_field_tag(:symbol, @stock.symbol) %>
     <%= radio_button_tag(:buy, 0) %>
     <%= label_tag(:buy_true, "Buy") %>
     <%= radio_button_tag(:buy, 1) %>
@@ -12,8 +12,8 @@
   <% end %>
 <% else %>
   <%= form_tag update_holding_path do %>
-    <%= text_field_tag(:symbol) %>
     <%= label_tag(:symbol, "Ticker/Symbol") %>
+    <%= text_field_tag(:symbol) %>
     <%= radio_button_tag(:buy, 0) %>
     <%= label_tag(:buy_true, "Buy") %>
     <%= radio_button_tag(:buy, 1) %>
