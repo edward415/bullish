@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :stocks
   
   post 'update_holding' => 'stocks#update_holding'
+  
+  post 'create_comment' => 'comments#create_comment'
 
   get 'welcome/index'
   root to: 'welcome#index'

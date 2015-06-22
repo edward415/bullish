@@ -1,5 +1,6 @@
   <% @events.each do |e| %>
     <div class="media">
+
       <% if User.find(e.user_id).picture? %>
         <div class="media-left media-middle"><%= link_to image_tag( User.find(e.user_id).picture_url(:large), width: 100, height:100, class: 'media-objet img-circle'), user_path(e.user_id) %></div>
       <% end %>
@@ -21,6 +22,41 @@
           <h3><%= link_user(e) %> sold <%= e.qty %> shares of @<%= link_stock(e) %> at $<%= e.price %></h3>
       <% end %>
     <% end %>
+          <span type="button" class="glyphicon glyphicon-pencil" style="color: #337AB7;" data-toggle="modal" data-target="#commentModal" data-event="<%= e.id %>"><%= e.comments.count %></span>
       </div>
     </div>
+      
+      <!--Comments-->
+      
+      <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="exampleModalLabel">Comment</h4>
+            </div>
+            <div class="modal-body">
+              <%= form_tag create_comment_path do %>
+                <%= hidden_field_tag (:event) %>
+                <%= text_area_tag(:content, "", size: "40x6", class: 'center-block') %>
+            </div>
+            <div class="modal-footer">
+                <%= submit_tag "Post", name: nil, class: "btn btn-primary" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
   <% end %>
+  
+
+<script>
+$('#commentModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var event = button.data('event') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-body #event').val(event)
+})
+</script>  

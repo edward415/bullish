@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :stocks, through: :holdings
   has_many :histories
   has_many :events
+  has_many :comments
   
   
 end

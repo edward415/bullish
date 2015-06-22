@@ -14,46 +14,25 @@
       
     </div>  
   </div>
-  <div class="row">
-    <div class="tabbable tabs-left">
-      <ul class="nav nav-tabs">
-        <li class="active"><a href="#recent" data-toggle="tab"><h2>Recent</h2></a></li>
-        <li><a href="#porfolio" data-toggle="tab"><h2>Portfolio<h2></a></li>
-        <li><a href="#history" data-toggle="tab"><h2>History</h2></a></li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane active" id="recent">
-          <%= render "feed/events" %>
-        </div>
-        <div class="tab-pane" id="porfolio">
-          <%= render "portfolio" %>
-        </div>
-        <div class="tab-pane" id="history">
-          <div class ="row">
-            <% @histories.each do |h| %>
-              <div class="col-sm-12 col-md-4">
-                <div class="panel panel-primary">
-                  <div class="panel-heading"><h4><%= h.stock.symbol %></h4></div>
-                <table class="table table-striped">
-                  <tr>
-                    <td colspan="2"><h4><%= h.stock.name %></h4><h2 class="text-center"><%= number_to_percentage(h.pct_gain.round(2), precision: 2) %></h2></td>
-                  </tr>
-                  <tr>
-                    <td><h4>Average Buying Price: <%= h.buy_price %></h4></td>
-                    <td><h4> Average Exit Price:</h4></td>
-                  </tr>
-                  <tr>
-                    <td><h4>Position Opened On: <br> <%= h.initiate_date %></h4></td>
-                    <td><h4>Position Closed On: <br> <%= h.created_at.to_date %></h4></td>
-                  </tr>
-                </table>
-                </div>
-              </div>
-            <% end %>
-          </div>
-          
-        </div>
+  
+<div class="row">
+  <div class="tabbable tabs-left">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#recent" data-toggle="tab"><h1>Recent</h1></a></li>
+      <li><a href="#portfolio" data-toggle="tab"><h1>Portfolio</h1></a></li>
+      <li><a href="#history" data-toggle="tab"><h1>History</h1></a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="recent">
+        <%= render "feed/events" %>
+      </div>
+      <div class="tab-pane" id="portfolio">
+        <%= render "portfolio" %>
+      </div>
+      <div class="tab-pane" id="history">
+        <%= render "histories" %>
       </div>
     </div>
   </div>
 </div>
+

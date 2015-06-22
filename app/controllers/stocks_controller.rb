@@ -36,6 +36,7 @@ class StocksController < ApplicationController
   end
   
   def update_holding
+    raise
     @buy = params[:buy]
     @qty = params[:holding][:qty].to_i
     @symbol = params[:symbol]
