@@ -20,35 +20,52 @@ class StocksController < ApplicationController
     @stock = Stock.new
   end
   
-  def create
-    @stock = current_user.stocks.build(stock_params)
-    if @stock.save
-      @stock.get_info
-      redirect_to root_path, notice: "Successfully Added Stock To Your Portfolio!"
+  def generate_stock(symbol)
+    session[:return_to] ||= request.referer
+    @stock = Stock.create(symbol: @symbol)
+    @stock.save!
+    @stock.update_stock
+    if @stock.last.nil?
+      @stock.delete
+      flash[:alert] = "Failed to retrieve stock info, please input valid ticker/symbol."
+      redirect_to session.delete(:return_to) and return
     else
-      flash[:alert] = "Failed to Add Stock! Please Try Again."
-      render :new
+      redirect_to stock_path(@stock)
+    end
+  end
+    
+  def find_create_stock 
+    @symbol = params[:search]
+    
+    if Stock.where(symbol: @symbol).first
+      @stock = Stock.find_by(symbol: @symbol)
+      @stock.update_stock
+      redirect_to stock_path(@stock)
+    else
+      generate_stock(@symbol)
     end
   end
   
   def show
     @stock = Stock.find(params[:id])
+    @stock.update_stock
   end
   
   def update_holding
-    raise
+    session[:return_to] ||= request.referer
     @buy = params[:buy]
     @qty = params[:holding][:qty].to_i
     @symbol = params[:symbol]
     
     if Stock.where(symbol: @symbol).first
       @stock_id = Stock.find_by(symbol: @symbol).id
+      puts @stock_id
     else
-      flash[:alert] = "invalid stock"
-      redirect_to root_path and return
+      generate_stock(@symbol) or return
+      @stock_id = Stock.find_by(symbol: @symbol).id
     end
     
-    Stock.find(@stock_id).get_info
+    Stock.find(@stock_id).update_stock
     @stock = Stock.find(@stock_id)
     @holding = current_user.holdings.find_by(stock_id: @stock_id)
     
@@ -60,7 +77,7 @@ class StocksController < ApplicationController
     
     if @buy == nil
       flash[:alert] = "Please select a buy or sell action."
-      redirect_to stock_path(stock_id)
+      redirect_to stock_path(@stock_id)
     end
     
     if @buy == "0" #Buy

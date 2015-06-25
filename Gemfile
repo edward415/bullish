@@ -54,7 +54,7 @@ gem 'groupdate'
 
 gem 'active_median'
 
-gem 'gon'
+gem 'stock_quote'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

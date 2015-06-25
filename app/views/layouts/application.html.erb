@@ -11,23 +11,30 @@
 </head>
 <body class="mobile">
 <div class="container-fluid" style="background-color:black;">
-  <div class="navbar-header">
-    
-  </div>
-    <ul class="nav nav-pills" id="full-nav">
+  <nav class="navbar navbar-default">
+    <ul class="nav nav-pills navbar-left" id="full-nav">
       <li role="presentation" class="active"><%= link_to "Bullish", root_path, class: 'navbar-brand' %></li>
       <li role="presentation"><%= link_to "Home", root_path %></li>
       <li role ="presentation"><%= link_to "Feed", feed_index_path %></li>
       <li role="presentation"><%= link_to "Rankings", root_path %></li>
+    </ul>
+        <%= form_tag(find_create_stock_path, class: 'navbar-form navbar-left') do %>
+        <div class="form-group">
+          <%= text_field_tag(:search, "", placeholder: 'Lookup Stock', class: 'form-control') %>
+        </div>
+          <%= submit_tag("Go!", class: 'btn btn-default') %>
+        <% end %>
+    <ul class="nav nav-pills navbar-right">
       <% if current_user %>
-        <li role="presentation" class="pull-right"><%= link_to "Sign Out", destroy_user_session_path, method: :delete %> </li>
-        <li role="presentation" class="pull-right"><%= link_to "Hi #{current_user.name || current_user.email}!", user_path(current_user) %></li>
+        <li role="presentation"><%= link_to "Hi #{current_user.name || current_user.email}!", user_path(current_user) %></li>
+        <li role="presentation"><%= link_to "Sign Out", destroy_user_session_path, method: :delete %> </li>
       <% else %>
         <li role="presentation" class="pull-right"><%= link_to "Login", new_user_session_path %></li>
         <li role="presentation" class="pull-right"><%= link_to "Signup", new_user_registration_path %></li>
       <% end %>
     </ul>
   </div>
+  </nav>
   <% if current_user %>
     <nav class="navbar navbar-default navbar-fixed-bottom tabs" id="tab-nav">
       <div class="row">

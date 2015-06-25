@@ -10,6 +10,10 @@ class UsersController < ApplicationController
       @array << ["#{h.stock.symbol}", h.qty * h.stock.last]
     end
     
+    @user.stocks.each do |s|
+      s.update_stock
+    end
+    
     puts @array.inspect
 
   end

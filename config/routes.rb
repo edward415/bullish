@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post 'update_holding' => 'stocks#update_holding'
   
   post 'create_comment' => 'comments#create_comment'
+  
+  post 'find_create_stock' => 'stocks#find_create_stock'
 
   get 'welcome/index'
   root to: 'welcome#index'

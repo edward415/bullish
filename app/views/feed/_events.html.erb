@@ -16,7 +16,7 @@
     <% else %>
       <% if e.close %>
           <div class="media-heading"><h2>Closed @<%= link_stock(e) %><span><h4 class="pull-right"><%= distance_of_time_in_words(e.created_at, Time.now) %> ago</h4></span></h2></div>
-          <h3><%= link_user(e) %> sold <%= e.qty %> shares at $<%= e.price %> and closed position on @<%= link_stock(e) %>, realizing <span style="color:<%= gain_color(e) %>"><%= e.history.pct_gain %></span></h3>
+          <h3><%= link_user(e) %> sold <%= e.qty %> shares at $<%= e.price %> and closed position on @<%= link_stock(e) %>, realizing <span style="color:<%= gain_color(e) %>"><%= (e.history.pct_gain).round(2) %></span></h3>
       <% else %>
           <div class="media-heading"><h2>Sell @<%= link_stock(e) %><span><h4 class="pull-right"><%= distance_of_time_in_words(e.created_at, Time.now) %> ago</h4></span></h2></div>
           <h3><%= link_user(e) %> sold <%= e.qty %> shares of @<%= link_stock(e) %> at $<%= e.price %></h3>

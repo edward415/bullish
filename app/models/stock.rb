@@ -55,44 +55,65 @@ class Stock < ActiveRecord::Base
     return change.round(2)
   end
   
-  def get_info
+  # def get_info
     
-    url = "http://globalquotes.xignite.com/v3/xGlobalQuotes.asmx?WSDL"
+  #   url = "http://globalquotes.xignite.com/v3/xGlobalQuotes.asmx?WSDL"
 
-    soap_header = {
-      "Header" => {
-            "@xmlns" => "http://www.xignite.com/services/",
-            "Username" => ENV['XIGNITE_KEY']
-            }
-        }
-    client = Savon.client(wsdl: url, :soap_header => soap_header, convert_request_keys_to: :none, env_namespace: 'soap')
+  #   soap_header = {
+  #     "Header" => {
+  #           "@xmlns" => "http://www.xignite.com/services/",
+  #           "Username" => ENV['XIGNITE_KEY']
+  #           }
+  #       }
+  #   client = Savon.client(wsdl: url, :soap_header => soap_header, convert_request_keys_to: :none, env_namespace: 'soap')
     
-    response = client.call(:get_global_delayed_quote, message: {
-      "@xmlns" => "http://www.xignite.com/services/",
-	      Identifier: "#{self.symbol}.#{self.market_identification_code}",
-	      IdentifierType: 'Symbol'
-    })
+  #   response = client.call(:get_global_delayed_quote, message: {
+  #     "@xmlns" => "http://www.xignite.com/services/",
+	 #     Identifier: "#{self.symbol}.#{self.market_identification_code}",
+	 #     IdentifierType: 'Symbol'
+  #   })
   
-    # data = pp response.to_hash
-    # @symbol = data[:symbol]
-    # @name = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:security][:name]
-    # @last = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:last]
-    # @date = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:date]
-    # @time = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:time]
-    # @high = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:high]
-    # @low = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:low]
-    # @previous_close = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:previous_close]
-    # @volume = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:volume]
-    # @high52_weeks = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:high52_weeks]
-    # @low52_weeks = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:low52_weeks]
-    # @open = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:open]
-    # @ask = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:ask]
-    # @bid = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:bid]
+  #   data = pp response.to_hash
+  #   @symbol = data[:symbol]
+  #   @name = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:security][:name]
+  #   @last = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:last]
+  #   @date = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:date]
+  #   @time = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:time]
+  #   @high = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:high]
+  #   @low = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:low]
+  #   @previous_close = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:previous_close]
+  #   @volume = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:volume]
+  #   @high52_weeks = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:high52_weeks]
+  #   @low52_weeks = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:low52_weeks]
+  #   @open = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:open]
+  #   @ask = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:ask]
+  #   @bid = data[:get_global_delayed_quote_response][:get_global_delayed_quote_result][:bid]
     
-    # self.update_attributes(last: @last, date: @date, time: @time, name: @name, 
-    # high: @high, low: @low, close: @previous_close, volume: @volume, 
-    # high52_weeks: @high52_weeks, low52_weeks: @low52_weeks, start: @open, ask: @ask, bid: @bid)
-    # self.save!
+  #   self.update_attributes(last: @last, date: @date, time: @time, name: @name, 
+  #   high: @high, low: @low, close: @previous_close, volume: @volume, 
+  #   high52_weeks: @high52_weeks, low52_weeks: @low52_weeks, start: @open, ask: @ask, bid: @bid)
+  #   self.save!
+  # end
+  
+  def update_stock
+    @stock = StockQuote::Stock.quote("#{self.symbol}")
+    @last = @stock.last_trade_price_only
+    @name = @stock.name
+    @percent_change = @stock.percent_change
+    @change = @stock.change
+    @high = @stock.days_high
+    @low = @stock.days_low
+    @close = @stock.previous_close
+    @start = @stock.open
+    @pe_ratio = @stock.pe_ratio
+    @market_cap = @stock.market_capitalization
+    @volume = @stock.volume
+    
+    self.update_attributes(last: @last, percent_change: @percent_change, 
+    change: @change, high: @high, low: @low, close: @close, 
+    start: @start, market_cap: @market_cap, pe_ratio: @pe_ratio, name: @name,
+    volume: @volume)
+    self.save!
   end
-  
+
 end

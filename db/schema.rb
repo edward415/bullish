@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150619090027) do
+ActiveRecord::Schema.define(version: 20150625044531) do
 
   create_table "comments", force: true do |t|
     t.string   "content"
@@ -90,6 +90,10 @@ ActiveRecord::Schema.define(version: 20150619090027) do
     t.float    "start"
     t.float    "ask"
     t.float    "bid"
+    t.float    "pe_ratio"
+    t.string   "market_cap"
+    t.string   "percent_change"
+    t.float    "change"
   end
 
   add_index "stocks", ["user_id"], name: "index_stocks_on_user_id"
